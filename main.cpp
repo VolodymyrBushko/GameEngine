@@ -10,8 +10,6 @@
 #include "point.h"
 #include "init.h"
 
-const double X = 10.0;
-const double Y = 10.0;
 
 std::vector<Object*> vect;
 
@@ -25,13 +23,26 @@ static void DrawFigure() {
    glutSwapBuffers();
 }
 
+float left = 0.0;
+float right = 2.0;
+float bottom = 0.0;
+float top = 2.0;
+float near = -1.0;
+float far = 1.0;
+
 static void Reshape(int width, int height) {
-  std::cout << "Reshape: w = " << width << ", h =  " << height << std::endl;
-  glViewport(0, 0, width, height);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  glOrtho(-(X), X, -(Y), Y, -1.0, 1.0);
-  glMatrixMode(GL_MODELVIEW);
+   if(height == 0) height = 1;
+   float aspect_ratio = (float)width / (float)height;
+
+   glViewport(0, 0, width, height);
+   glMatrixMode(GL_PROJECTION);
+   glLoadIdentity();
+
+   if(width >= height) {
+     glOrtho(left * aspect_ratio, right * aspect_ratio, bottom, top, near, far);
+   } else {
+     glOrtho(left, right, bottom / aspect_ratio, top / aspect_ratio, near, far);
+   }
 }
 
 int main(int argc, char** argv) {
