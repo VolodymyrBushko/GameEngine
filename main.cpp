@@ -11,6 +11,12 @@
 #include "init.h"
 
 
+void MouseEvent(int button, int state, int x, int y){
+   std::cout<< "button: " << button << "\t State: "<< state << "\t x: "<< x << "\t y: "<< y << std::endl;
+   glutPostRedisplay();
+}
+
+
 std::vector<Object*> vect;
 
 static void DrawFigure() {
@@ -65,6 +71,7 @@ int main(int argc, char** argv) {
 
    glutDisplayFunc(DrawFigure);
    glutReshapeFunc(Reshape);
+   glutMouseFunc(MouseEvent);
    glutMainLoop();
 
    return 0;
